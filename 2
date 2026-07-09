@@ -1,0 +1,63 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+print("=== 任务1：收益率与波动率计算 ===")
+np.random.seed(42)
+n_days = 252
+daily_ret = np.random.randn(n_days) * 0.02
+prices = 100 * np.exp(np.cumsum(daily_ret))
+log_returns = np.diff(np.log(prices))
+daily_vol = np.std(log_returns, ddof=1)
+annual_vol = daily_vol * np.sqrt(252)
+total_return = (prices[-1] - prices[0]) / prices[0]
+print(f"初始价格: {prices[0]:.2f}")
+print(f"最终价格: {prices[-1]:.2f}")
+print(f"区间总收益率: {total_return:.4f}")
+print(f"日波动率: {daily_vol:.6f}")
+print(f"年化波动率: {annual_vol:.4f}")
+print()
+
+print("=== 任务2：移动平均线计算 ===")
+def moving_average(data, window):
+    cumsum = np.cumsum(data)
+    cumsum[window:] = cumsum[window:] - cumsum[:-window]
+    return cumsum[window - 1:] / window
+
+ma5 = moving_average(prices, 5)
+ma20 = moving_average(prices, 20)
+ma60 = moving_average(prices, 60)
+print(f"股价长度: {len(prices)}")
+print(f"5日均线长度: {len(ma5)}，最后值: {ma5[-1]:.2f}")
+print(f"20日均线长度: {len(ma20)}，最后值: {ma20[-1]:.2f}")
+print(f"60日均线长度: {len(ma60)}，最后值: {ma60[-1]:.2f}")
+print()
+
+print("=== 任务3：投资组合风险分析 ===")
+np.random.seed(42)
+n_stocks = 4
+returns = np.random.randn(n_stocks, n_days) * 0.02
+cov_matrix = np.cov(returns, ddof=1)
+corr_matrix = np.corrcoef(returns)
+weights = np.array([0.3, 0.3, 0.2, 0.2])
+port_variance = weights @ cov_matrix @ weights
+port_vol = np.sqrt(port_variance) * np.sqrt(252)
+print("协方差矩阵:\n", cov_matrix.round(6))
+print("相关系数矩阵:\n", corr_matrix.round(4))
+print(f"投资组合权重: {weights}")
+print(f"投资组合年化方差: {port_variance * 252:.6f}")
+print(f"投资组合年化波动率: {port_vol:.4f}")
+print()
+
+print("=== 任务4：可视化 ===")
+plt.figure(figsize=(10, 6))
+plt.plot(prices, label='Price', linewidth=1)
+plt.plot(range(4, 252), ma5, label='5-day MA', linewidth=1)
+plt.plot(range(19, 252), ma20, label='20-day MA', linewidth=1)
+plt.title('Stock Price and Moving Average')
+plt.xlabel('Trading Days')
+plt.ylabel('Price')
+plt.legend()
+plt.grid(alpha=0.3)
+plt.savefig(r'C:\Users\lenovo\Desktop\stock_ma.png', dpi=100)
+plt.close()
+print("可视化图片已保存到桌面")
