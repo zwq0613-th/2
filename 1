@@ -1,0 +1,60 @@
+import numpy as np
+
+print("=== 任务1：创建不同维度数组 ===")
+arr_1d = np.array([1, 2, 3, 4, 5])
+arr_2d = np.array([[1, 2, 3], [4, 5, 6]])
+arr_3d = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+print(f"1维数组:\n{arr_1d}")
+print(f"形状: {arr_1d.shape}，维度: {arr_1d.ndim}")
+print(f"2维数组:\n{arr_2d}")
+print(f"形状: {arr_2d.shape}，维度: {arr_2d.ndim}")
+print(f"3维数组:\n{arr_3d}")
+print(f"形状: {arr_3d.shape}，维度: {arr_3d.ndim}")
+print()
+
+print("=== 任务2：索引、切片、形状变换 ===")
+arr = np.arange(12).reshape(3, 4)
+print("原数组:\n", arr)
+print("索引取第2行第3列元素:", arr[1, 2])
+print("切片取前2行前2列:\n", arr[:2, :2])
+print("切片取所有行的第3列:", arr[:, 2])
+arr_reshaped = arr.reshape(2, 6)
+print("reshape为2行6列:\n", arr_reshaped)
+arr_flatten = arr.flatten()
+print("展平为1维:", arr_flatten)
+arr_transposed = arr.T
+print("转置后形状:", arr_transposed.shape)
+print("转置结果:\n", arr_transposed)
+print()
+
+print("=== 任务3：矩阵基本运算函数 ===")
+def matrix_add(A, B):
+    return A + B
+def matrix_multiply(A, B):
+    return A @ B
+def matrix_transpose(A):
+    return A.T
+
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+print("矩阵A:\n", A)
+print("矩阵B:\n", B)
+print("矩阵加法:\n", matrix_add(A, B))
+print("矩阵乘法:\n", matrix_multiply(A, B))
+print("矩阵A转置:\n", matrix_transpose(A))
+print()
+
+print("=== 任务4：随机数据统计分析 ===")
+np.random.seed(42)
+data = np.random.randn(1000)
+mean_val = np.mean(data)
+std_val = np.std(data)
+max_val = np.max(data)
+min_val = np.min(data)
+median_val = np.median(data)
+print("随机数据量:", len(data))
+print("均值:", mean_val.round(4))
+print("标准差:", std_val.round(4))
+print("最大值:", max_val.round(4))
+print("最小值:", min_val.round(4))
+print("中位数:", median_val.round(4))
